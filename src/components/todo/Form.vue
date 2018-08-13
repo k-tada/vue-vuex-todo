@@ -1,15 +1,44 @@
 <template>
   <div class="form">
-    <div class="toggle-all" />
+    <div class="toggle-all" @click="toggleAllTodo" />
     <div class="input">
-      <input type="text" class="new" placeholder="What needs to be done?" />
+      <input
+        type="text"
+        class="new"
+        placeholder="What needs to be done?"
+        :value="text"
+        @input="updateText($event)"
+        @keyup.enter="addTodo()"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'Form'
+  name: 'Form',
+  data () {
+    return {
+      text: ''
+    }
+  },
+  computed: mapState({
+    isDoneAll: state => state.todos.isDoneAll
+  }),
+  methods: {
+    updateText (e) {
+      this.text = e.target.value
+    },
+    addTodo (e) {
+      this.$store.commit('todos/addTodo', this.text)
+      this.text = ''
+    },
+    toggleAllTodo () {
+      this.$store.commit('todos/toggleAllTodo', !this.isDoneAll)
+    }
+  }
 }
 </script>
 

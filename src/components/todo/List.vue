@@ -5,6 +5,7 @@
         class="toggle"
         type="checkbox"
         :checked="todo.isDone"
+        @click="toggleTodo(todo.id)"
       />
       <div class="text">{{todo.text}}</div>
     </div>
@@ -12,15 +13,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'List',
-  data () {
-    return {
-      todos: [
-        { id: 1, text: 'aaa', isDone: false },
-        { id: 2, text: 'bbb', isDone: true },
-        { id: 3, text: 'ccc', isDone: false }
-      ]
+  computed: mapGetters('todos', {
+    todos: 'allTodos'
+  }),
+  methods: {
+    toggleTodo (id) {
+      this.$store.commit('todos/toggleTodo', id)
     }
   }
 }
