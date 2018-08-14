@@ -8,6 +8,7 @@
         @click="toggleTodo(todo.id)"
       />
       <div class="text">{{todo.text}}</div>
+      <div class="destroy" @click="deleteTodo(todo.id)">×</div>
     </div>
   </div>
 </template>
@@ -23,6 +24,9 @@ export default {
   methods: {
     toggleTodo (id) {
       this.$store.commit('todos/toggleTodo', id)
+    },
+    deleteTodo (id) {
+      this.$store.commit('todos/deleteTodo', id)
     }
   }
 }
@@ -75,5 +79,21 @@ input.toggle:checked + .text {
   white-space: pre-line;
   word-break: break-all;
   padding: 15px 20px;
+}
+
+.destroy {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: transparent;
+  visibility: hidden;
+}
+
+.todo:hover .destroy {
+  visibility: visible;
+  color: #af5b5e;
+  cursor: pointer;
 }
 </style>
