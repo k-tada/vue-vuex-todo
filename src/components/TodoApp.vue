@@ -6,15 +6,22 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Form from './todo/Form'
 import List from './todo/List'
 
 export default {
   name: 'TodoApp',
+  mounted () {
+    this.getTodos()
+  },
   components: {
     Form,
     List
-  }
+  },
+  methods: mapActions({
+    getTodos: 'todos/getTodos'
+  })
 }
 </script>
 

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'List',
@@ -22,12 +22,10 @@ export default {
     todos: 'allTodos'
   }),
   methods: {
-    toggleTodo (id) {
-      this.$store.commit('todos/toggleTodo', id)
-    },
-    deleteTodo (id) {
-      this.$store.commit('todos/deleteTodo', id)
-    }
+    ...mapActions({
+      toggleTodo: 'todos/toggleTodo',
+      deleteTodo: 'todos/deleteTodo'
+    })
   }
 }
 </script>

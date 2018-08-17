@@ -8,14 +8,14 @@
         placeholder="What needs to be done?"
         :value="text"
         @input="updateText($event)"
-        @keyup.enter="addTodo()"
+        @keyup.enter="addTodoAndClearText()"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Form',
@@ -31,13 +31,14 @@ export default {
     updateText (e) {
       this.text = e.target.value
     },
-    addTodo (e) {
-      this.$store.commit('todos/addTodo', this.text)
+    addTodoAndClearText () {
+      this.addTodo(this.text)
       this.text = ''
     },
-    toggleAllTodo () {
-      this.$store.commit('todos/toggleAllTodo', !this.isDoneAll)
-    }
+    ...mapActions({
+      addTodo: 'todos/addTodo',
+      toggleAllTodo: 'todos/toggleAllTodo'
+    })
   }
 }
 </script>
