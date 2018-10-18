@@ -34,6 +34,13 @@ export default {
       firebase
         .auth()
         .onAuthStateChanged(user => commit('onUserChanged', user))
+    },
+    async signUp ({ commit }, { email, password, router }) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => router.push('/login'))
+        .catch(error => commit('onError', error.code))
     }
   }
 }

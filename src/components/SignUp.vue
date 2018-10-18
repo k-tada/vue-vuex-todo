@@ -20,14 +20,24 @@
     </div>
     <div class="input">
       <input
-        type="submit"
-        class="submit"
-        value="Login"
-        @click="login()"
+        type="password"
+        class="form"
+        placeholder="Your Password Again"
+        :value="passwordConfirm"
+        @input="updatePasswordConfirm($event)"
       />
     </div>
-    <div class="button" @click="gotoSignUpPage()">
-      Sign up hele..
+    <div class="input">
+      <input
+        type="submit"
+        class="submit"
+        value="Sign Up"
+        @click="signup()"
+        v-bind:disabled="hasError"
+      />
+    </div>
+    <div class="button" @click="gotoLoginPage()">
+      Login hele..
     </div>
   </div>
 </template>
@@ -36,11 +46,13 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'Login',
+  name: 'SignUp',
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      passwordConfirm: '',
+      hasError: false
     }
   },
   computed: mapState('auth', ['user']),
@@ -50,29 +62,44 @@ export default {
     }
   },
   methods: {
+    updateHasError () {
+      if (
+        this.email.length <= 0 ||
+        this.password.length <= 0 ||
+        this.password !== this.passwordConfirm
+      ) {
+        this.hasError = true
+      } else {
+        this.hasError = false
+      }
+    },
     updateEmail (e) {
       this.email = e.target.value
+      this.updateHasError()
     },
     updatePassword (e) {
       this.password = e.target.value
+      this.updateHasError()
     },
-    login () {
-      if (this.email.length <= 0 || this.password.length <= 0) {
+    updatePasswordConfirm (e) {
+      this.passwordConfirm = e.target.value
+      this.updateHasError()
+    },
+    signup () {
+      if (this.hasError) {
         return
       }
-      this.signIn({
+      this.signUp({
         email: this.email,
         password: this.password,
-        router: this.$router,
-        redirectTo: this.$route.query.redirect || '/'
+        router: this.$router
       })
     },
-    gotoSignUpPage () {
-      this.$router.push('/signup')
+    gotoLoginPage () {
+      this.$router.push('/login')
     },
     ...mapActions({
-      signIn: 'auth/signIn',
-      onAuthStateChanged: 'auth/onAuthStateChanged'
+      signUp: 'auth/signUp'
     })
   }
 }
@@ -149,6 +176,11 @@ input:-webkit-autofill {
   &:focus {
     outline: 0;
     border: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: #ddd;
   }
 }
 

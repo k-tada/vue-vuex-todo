@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import auth from '../store/auth'
 import Login from '../components/Login'
 import TodoApp from '../components/TodoApp'
+import SignUp from '../components/SignUp'
 
 Vue.use(Router)
 
@@ -10,6 +11,7 @@ const router = new Router({
   routes: [
     { path: '/todos', component: TodoApp, meta: { requiresAuth: true } },
     { path: '/login', component: Login },
+    { path: '/signup', component: SignUp },
     { path: '*', redirect: '/todos' }
   ]
 })
