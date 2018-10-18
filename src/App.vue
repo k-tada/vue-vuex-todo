@@ -2,21 +2,26 @@
   <div class="app">
     <div class="container">
       <Logo />
-      <TodoApp />
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Logo from './components/Logo'
-import TodoApp from './components/TodoApp'
 
 export default {
   name: 'App',
   components: {
-    Logo,
-    TodoApp
-  }
+    Logo
+  },
+  mounted () {
+    this.onAuthStateChanged()
+  },
+  methods: mapActions({
+    onAuthStateChanged: 'auth/onAuthStateChanged'
+  })
 }
 </script>
 

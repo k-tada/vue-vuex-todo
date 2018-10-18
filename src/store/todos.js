@@ -39,7 +39,7 @@ export default {
       try {
         commit('setTodos', (await axios.get('/todos')).data)
       } catch (e) {
-        console.err('Failed to get todos', e.message)
+        console.error('Failed to get todos', e.message)
       }
     },
     async addTodo ({ commit, dispatch, state }, text) {
@@ -49,7 +49,7 @@ export default {
         await axios.post('/todos', todo)
         dispatch('getTodos')
       } catch (e) {
-        console.err('Failed to add todo', e.message)
+        console.error('Failed to add todo', e.message)
       }
     },
     async toggleTodo ({ commit, dispatch, state }, id) {
@@ -62,7 +62,7 @@ export default {
         await axios.put(`/todos/${id}`, { ...target, isDone: !target.isDone })
         dispatch('getTodos')
       } catch (e) {
-        console.err('Failed to toggle todo', e.message)
+        console.error('Failed to toggle todo', e.message)
       }
     },
     async toggleAllTodo ({ commit, dispatch, state }) {
@@ -72,7 +72,7 @@ export default {
         )
         dispatch('getTodos')
       } catch (e) {
-        console.err('Failed to toggle todo', e.message)
+        console.error('Failed to toggle todo', e.message)
       }
     },
     async deleteTodo ({ commit, dispatch, state }, id) {
@@ -85,7 +85,7 @@ export default {
         await axios.delete(`/todos/${id}`)
         dispatch('getTodos')
       } catch (e) {
-        console.err('Failed to delete todo', e.message)
+        console.error('Failed to delete todo', e.message)
       }
     }
   }
